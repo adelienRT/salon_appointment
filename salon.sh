@@ -1,7 +1,6 @@
 #! /bin/bash
 
-#PSQL="psql -X --username=freecodecamp --dbname=salon --tuples-only -c"
-PSQL="psql --username=freecodecamp --dbname=salon -t --no-align -c"
+PSQL="psql -X --username=freecodecamp --dbname=salon --tuples-only -c"
 
 MAIN_MENU() {
   if [[ $1 ]]
@@ -9,11 +8,14 @@ MAIN_MENU() {
   echo -e "\n$1\n"
   fi
 
-  SERVICES=$($PSQL "SELECT service_id,name FROM services;")
-  echo "$SERVICES" | while IFS="|" read SERVICE_ID NAME
+  GET_SERVICE=$($PSQL "SELECT service_id, name FROM services")
+  
+  echo "$GET_SERVICE" | while read SERVICE_ID BAR SERVICE_NAME
   do
-  echo -e "$SERVICE_ID)$NAME"
+    echo "$SERVICE_ID) $SERVICE_NAME"
   done
+
+
   SERVICE_ID
 }
 
